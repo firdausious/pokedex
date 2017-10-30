@@ -2,6 +2,7 @@
     "name": "poke-cra",
     "version": "0.1.0",
     "private": true,
+    "author": "firdausious",
     "dependencies": {
         "axios": "^0.17.0",
         "jss": "^9.0.0",

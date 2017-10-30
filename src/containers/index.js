@@ -2,60 +2,23 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'material-ui/Button';
-import Dialog, {
-  DialogTitle,
-  DialogContent,
-} from 'material-ui/Dialog';
-import List, {
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-  ListSubheader,
-} from 'material-ui/List';
+import List from 'material-ui/List';
 import Typography from 'material-ui/Typography';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import Avatar from 'material-ui/Avatar';
 import Input from 'material-ui/Input';
 import { CircularProgress } from 'material-ui/Progress';
-import Slide from 'material-ui/transitions/Slide';
 import { withStyles } from 'material-ui/styles';
 
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import withRoot from '../components/withRoot';
-import { getPokemonId } from '../helpers/utils';
 
-const styles = {
-  root: {
-    maxWidth: 504,
-    margin: '0 auto',
-    position: 'relative'
-  },
-  header: {
-    maxWidth: 504,
-  },
-  listContainer: {
-    height: 700,
-    overflow: 'auto'
-  },
-  detailContent: {
-    paddingTop: 64,
-  }
-};
+import PokemonDetail from './PokemonDetail/PokemonDetail';
+import PokemonListItem from './PokemonListItem/PokemonListItem';
 
-const PokemonInfoItem = ({label, value}) => {
-  return (
-  <ListItem>
-    <ListItemText primary={label} />
-    <ListItemSecondaryAction>
-      <Typography>{value}</Typography> 
-    </ListItemSecondaryAction>
-  </ListItem>
-  );
-};
+import styles from './indexStyles';
 
 class Index extends Component {
   state = {
@@ -167,7 +130,7 @@ class Index extends Component {
         <br />
 
         <div>
-          {/* List */}
+          {/* List without filter */}
           {!filteredAbility &&
             <InfiniteScroll
                 pageStart={0}
@@ -177,77 +140,42 @@ class Index extends Component {
               {pokemonList.length > 0 &&
                 <List>
                   {pokemonList.map(pokemon =>
-                    <ListItem key={pokemon.name}
-                      button onClick={() => this.handleDetail(getPokemonId(pokemon.url))}>
-                      <Avatar src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${getPokemonId(pokemon.url)}.png`} />
-                      <ListItemText primary={pokemon.name} />
-                    </ListItem>)}
+                    <PokemonListItem
+                      key={pokemon.name}
+                      pokemon={pokemon}
+                      onChoose={this.handleDetail}
+                    />
+                  )}
                 </List>
               }
               {pokemonList.length === 0 && <div>No pokemon</div>}
             </InfiniteScroll>
           }
 
+          {/* List with filter */}
           {filteredAbility && pokemonList.length > 0 &&
             <div>
               <div>Ability: <strong>{pokemonFilteredAbility}</strong></div>
               <List>
                 {pokemonList.map(pokemon =>
-                  <ListItem key={pokemon.pokemon.name}
-                    button onClick={() => this.handleDetail(getPokemonId(pokemon.pokemon.url))}>
-                    <Avatar src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${getPokemonId(pokemon.pokemon.url)}.png`} />
-                    <ListItemText primary={pokemon.pokemon.name} />
-                  </ListItem>)}
+                  <PokemonListItem
+                    key={pokemon.pokemon.name}
+                    pokemon={pokemon.pokemon}
+                    onChoose={this.handleDetail}
+                  />
+                )}
               </List>
             </div>
           }
 
           {/* Detail */}
-          <Dialog fullScreen open={this.state.open} onRequestClose={this.handleRequestClose} transition={<Slide direction="up" />}>
-            <DialogTitle>
-              <AppBar>
-                <Toolbar>
-                  <Typography type="title" color="inherit">
-                    {pokemonDetail.name || '-'}
-                  </Typography>
-                  <Button color="contrast" onClick={this.handleRequestClose}>
-                    Close
-                  </Button>
-                </Toolbar>
-              </AppBar>
-            </DialogTitle>
-            <DialogContent className={classes.detailContent}>
- 
-              {/* Sprites */}
-              {pokemonDetail.sprites && <div>
-                {Object.entries(pokemonDetail.sprites).map(sprite =>
-                  <img key={sprite[0]} src={sprite[1]} alt="" />
-                )}
-              </div>}
+          <PokemonDetail
+            open={this.state.open}
+            close={this.handleRequestClose}
+            pokemonDetail={pokemonDetail}
+            classes={classes}
+          />
 
-              {/* Info */}
-              <List subheader={<ListSubheader>info</ListSubheader>}>
-                <PokemonInfoItem label="base Experience" value={pokemonDetail.base_experience || '-'} />
-                <PokemonInfoItem label="weight" value={pokemonDetail.weight || '-'} />
-                <PokemonInfoItem label="height" value={pokemonDetail.height || '-'} />
-              </List>
-
-              <br />
-
-              {/* Stats */}
-              {pokemonDetail.stats &&
-                <List subheader={<ListSubheader>stats</ListSubheader>}>
-                  {pokemonDetail.stats.map(stat =>
-                    <PokemonInfoItem
-                      key={`stats-${stat.stat.name}`}
-                      label={stat.stat.name}
-                      value={stat.base_stat}
-                    />
-                  )}
-                </List>
-              }
-            </DialogContent>
-          </Dialog>
         </div>
       </div>
     );
