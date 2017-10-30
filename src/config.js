@@ -4,7 +4,7 @@
 
 export default {
   // The URL we're connecting to
-  hostname: 'http://pokeapi.salestock.net/api/v2',
+  hostname: 'http://pokeapi.salestock.net/api/v2/',
 
   // Map shortnames to the actual endpoints, so that we can
   // use them like so: AppAPI.ENDPOINT_NAME.METHOD()
