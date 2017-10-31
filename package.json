@@ -3,8 +3,17 @@
     "version": "0.1.0",
     "private": true,
     "author": "firdausious",
+    "scripts": {
+        "start": "concurrently --kill-others \"node server.js\" \"react-scripts start\"",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject",
+        "build": "NODE_ENV=production react-scripts build",
+        "now-start": "NODE_ENV=production node server.js"
+    },
     "dependencies": {
         "axios": "^0.17.0",
+        "express": "^4.16.2",
+        "http-proxy": "^1.16.2",
         "jss": "^9.0.0",
         "jss-preset-default": "^4.0.1",
         "material-ui": "next",
@@ -23,11 +32,7 @@
         "serve": "^6.4.0",
         "validator": "^9.1.1"
     },
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test --env=jsdom",
-        "eject": "react-scripts eject",
-        "now-start": "serve --single ./build"
+    "devDependencies": {
+        "concurrently": "^3.5.0"
     }
 }

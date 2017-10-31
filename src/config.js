@@ -1,10 +1,14 @@
 /**
  * API Config
  */
+var hostname = process.env.NODE_ENV === 'production' ?
+'/api/'
+:
+'http://0.0.0.0:5000/api/';
 
 export default {
   // The URL we're connecting to
-  hostname: 'http://pokeapi.salestock.net/api/v2/',
+  hostname,
 
   // Map shortnames to the actual endpoints, so that we can
   // use them like so: AppAPI.ENDPOINT_NAME.METHOD()

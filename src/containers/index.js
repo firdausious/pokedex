@@ -14,6 +14,7 @@ import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import withRoot from '../components/withRoot';
+import config from '../config';
 
 import PokemonDetail from './PokemonDetail/PokemonDetail';
 import PokemonListItem from './PokemonListItem/PokemonListItem';
@@ -39,7 +40,7 @@ class Index extends Component {
 
     const endpoint = pokemonNextList ? pokemonNextList
     :
-    'http://pokeapi.salestock.net/api/v2/pokemon/';
+    `${config.hostname}pokemon/`;
 
     axios.get(endpoint)
       .then(response => {
@@ -59,7 +60,7 @@ class Index extends Component {
       filteredAbility: 1
     });
 
-    axios.get(`http://pokeapi.salestock.net/api/v2/ability/1`)
+    axios.get(`${config.hostname}ability/1`)
       .then(response => {
         this.setState({
           pokemonFilteredAbility: response.data.name,
@@ -83,7 +84,7 @@ class Index extends Component {
       open: true,
     });
 
-    axios.get(`http://pokeapi.salestock.net/api/v2/pokemon/${pokemonId}/`)
+    axios.get(`${config.hostname}pokemon/${pokemonId}/`)
     .then(response => {
       this.setState({
         pokemonDetail: response.data
