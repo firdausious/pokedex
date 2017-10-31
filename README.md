@@ -1,3 +1,24 @@
+# Pokedex
+-------------
+
+## Installation 
+`yarn install`
+
+## Run on Development
+`yarn start`
+
+## Run on Production
+`yarn build`
+
+`yarn now-start`
+
+## Deployment
+Deploy this on now.sh with now-cli
+
+`now --public`
+
+=======================================
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
